@@ -433,6 +433,17 @@ var FlowActions = exports.FlowActions = {
     },
     clear: function clear() {
         _jquery2.default.post("/clear");
+    },
+    download: function download() {
+        return window.location = "/flows/dump";
+    },
+    upload: function upload(file) {
+        var filereader = new FileReader();
+        filereader.file = file;
+        filereader.onload = function (e) {
+            return _jquery2.default.post("/flows/dump", e.target.result);
+        };
+        filereader.readAsBinaryString(file);
     }
 };
 
@@ -481,13 +492,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-<<<<<<< HEAD
 exports.ToggleInputButton = exports.ToggleButton = exports.Splitter = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-=======
-exports.ToggleComponent = exports.Splitter = undefined;
->>>>>>> added ui
 
 var _react = require("react");
 
@@ -505,15 +512,12 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-<<<<<<< HEAD
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-=======
->>>>>>> added ui
 var Splitter = exports.Splitter = _react2.default.createClass({
     displayName: "Splitter",
 
@@ -3521,11 +3525,14 @@ var FileMenu = _react2.default.createClass({
     },
     handleOpenClick: function handleOpenClick(e) {
         e.preventDefault();
-        console.error("unimplemented: handleOpenClick");
+    },
+    handleOpenChange: function handleOpenChange(e) {
+        e.preventDefault();
+        _actions.FlowActions.upload(e.target.files[0]);
     },
     handleSaveClick: function handleSaveClick(e) {
         e.preventDefault();
-        console.error("unimplemented: handleSaveClick");
+        _actions.FlowActions.download();
     },
     handleShutdownClick: function handleShutdownClick(e) {
         e.preventDefault();
@@ -3558,12 +3565,7 @@ var FileMenu = _react2.default.createClass({
                 _react2.default.createElement(
                     "li",
                     null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#", onClick: this.handleOpenClick },
-                        _react2.default.createElement("i", { className: "fa fa-fw fa-folder-open" }),
-                        "Open..."
-                    )
+                    _react2.default.createElement("input", { type: "file", onChange: this.handleOpenChange })
                 ),
                 _react2.default.createElement(
                     "li",
@@ -3640,10 +3642,6 @@ var Header = exports.Header = _react2.default.createClass({
                 "div",
                 { className: "menu" },
                 _react2.default.createElement(this.state.active, {
-<<<<<<< HEAD
-=======
-                    ref: "active",
->>>>>>> added ui
                     settings: this.props.settings,
                     updateLocation: this.props.updateLocation,
                     query: this.props.query
